@@ -1,0 +1,7 @@
+- name: apt-install
+  import_tasks: apt-compute-21.04.yaml
+  when:
+    - ansible_distribution_version == '21.04'
+    - inventory_hostname is match("hreidmarcompute.*")
+  tags: 
+    - apt

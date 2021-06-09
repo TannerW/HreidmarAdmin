@@ -1,0 +1,34 @@
+- name: install telegraf
+  apt:
+    name:
+      - telegraf
+    state: present
+    update_cache: false
+    install_recommends: false
+    force_apt_get: true
+  register: telegrafinstall
+
+- name: Start service telegraf, if not started
+  ansible.builtin.service:
+    name: telegraf
+    state: started
+
+- name: telegraf config file
+  copy:
+    src: '{{ playbook_dir }}/files/etc-telegraf-telegraf.conf'
+    dest: /etc/telegraf/telegraf.conf
+    owner: root
+    group: root
+    mode: u+rw,g+r,o+r
+  register: telegrafupload
+
+- name: Restart service telegraf
+  service:
+    name: telegraf
+    state: restarted
+  when: telegrafupload.changed or telegrafinstall.changed
+
+- name: Enable service telegraf
+  service:
+    name: telegraf
+    enabled: yes

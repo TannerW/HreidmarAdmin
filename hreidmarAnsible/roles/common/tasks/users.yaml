@@ -1,0 +1,38 @@
+- name: add hreidmar
+  group:
+    name: hreidmar
+    state: present
+    gid: 2000
+
+- name: add group ubuntu
+  group:
+    name: ubuntu
+    state: present
+    gid: 1000
+
+- name: add user ubuntu
+  user:
+    name: ubuntu
+    append: no
+    uid: 1000
+    home: /home/ubuntu
+    shell: /bin/bash
+    group: ubuntu
+    groups: sudo,hreidmar
+
+- name: add group tanner
+  group:
+    name: tanner
+    state: present
+    gid: 1001
+
+- name: add user tanner
+  user:
+    name: tanner
+    append: no
+    uid: 1001
+    home: /home/tanner
+    shell: /bin/bash
+    group: tanner
+    groups: sudo,hreidmar
+    

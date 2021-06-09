@@ -1,0 +1,23 @@
+- name: userids
+  import_tasks: users.yaml
+  tags: 
+    - userids
+
+- name: apt-install
+  import_tasks: apt-common-21.04.yaml
+  when:
+    - ansible_distribution_version == '21.04'
+  tags: 
+    - apt
+
+- name: npt-setup
+  import_tasks: ntp.yaml
+  when:
+    - ansible_distribution_version == '21.04'
+  tags: 
+    - npt
+
+- name: telegraf-setup
+  import_tasks: telegraf.yaml
+  tags: 
+    - telegraf

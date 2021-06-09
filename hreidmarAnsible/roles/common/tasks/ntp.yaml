@@ -1,0 +1,30 @@
+- name: ntp service
+  blockinfile:
+    path: /lib/systemd/system/ntp.service
+    regexp: '^Restart=on-failure'
+    insertafter: '\[Service\]'
+    block: |
+      Restart=always
+      RestartSec=900s
+  register: ntp_service
+  when:
+    - ansible_distribution_version == '21.04'
+
+- name: ntp_enabled
+  systemd:
+    name: ntp
+    state: started
+    enabled: yes
+
+- name: timectld_disabled
+  systemd:
+    name: systemd-timesyncd
+    state: stopped
+    enabled: no
+  when:
+    - ansible_distribution_version == '21.04'
+
+- name: reload the daemons
+  systemd:
+    daemon_reload: yes
+  when: ntp_service.changed

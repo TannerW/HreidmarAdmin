@@ -1,0 +1,16 @@
+- name: install common packages
+  apt:
+    name:
+      - vim
+      - zsh
+      - smartmontools
+      - fonts-powerline
+      - cifs-utils
+      - nfs-common
+      - git
+      - build-essential
+      - cmake
+    state: present
+    update_cache: false
+    install_recommends: false
+    force_apt_get: true

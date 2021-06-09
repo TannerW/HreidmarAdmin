@@ -1,0 +1,12 @@
+- name: install_apt_pkgs
+  apt:
+    name:
+      - fonts-powerline
+      - cifs-utils
+      - git
+      - build-essential
+      - cmake
+    state: present
+    update_cache: false
+    install_recommends: false
+    force_apt_get: true

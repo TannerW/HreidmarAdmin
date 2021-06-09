@@ -1,0 +1,5 @@
+- hosts: hreidmar
+  become: yes
+  roles:
+  - role: common
+  - role: compute
