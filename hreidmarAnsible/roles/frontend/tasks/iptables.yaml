@@ -1,0 +1,41 @@
+# Set ip forwarding on in /proc and verify token value with the sysctl command
+- ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: yes
+
+- name: MASQUERADE web traffic for compute nodes
+  ansible.builtin.iptables:
+    table: nat
+    chain: POSTROUTING
+    out_interface: eth0
+    jump: MASQUERADE
+    comment: MASQUERADE web traffic for compute nodes
+  become: yes
+
+- name: FOWARD web traffic for compute nodes
+  ansible.builtin.iptables:
+    chain: FORWARD
+    in_interface: eth0
+    out_interface: enx28ee520493ec
+    ctstate: ESTABLISHED,RELATED
+    comment: forwarding web traffic for compute nodes
+  become: yes
+
+- name: FOWARD web traffic for compute nodes
+  ansible.builtin.iptables:
+    chain: FORWARD
+    in_interface: enx28ee520493ec
+    out_interface: eth0
+    jump: ACCEPT
+    comment: forwarding web traffic for compute nodes
+  become: yes
+
+- name: install iptables-persistent
+  apt:
+    name:
+      - iptables-persistent
+    state: present
+    update_cache: false
+    install_recommends: false
+    force_apt_get: true

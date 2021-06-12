@@ -1,3 +1,24 @@
+
+- name: Open ntp port on frontend
+  ufw:
+    rule: allow
+    port: '123'
+    proto: udp
+  when:
+    - ansible_distribution_version == '21.04'
+    - inventory_hostname is match("hreidmarfrontend.*")
+
+- name: ntp client config file
+  copy:
+    src: '{{ playbook_dir }}/files/etc-ntp.conf'
+    dest: /etc/ntp.conf
+    owner: root
+    group: root
+    mode: u+rw,g+rw,o+r
+  when:
+    - ansible_distribution_version == '21.04'
+    - inventory_hostname is match("hreidmarcompute.*")
+
 - name: ntp service
   blockinfile:
     path: /lib/systemd/system/ntp.service
@@ -23,8 +44,14 @@
     enabled: no
   when:
     - ansible_distribution_version == '21.04'
+    - inventory_hostname is match("hreidmarcompute.*")
 
 - name: reload the daemons
   systemd:
     daemon_reload: yes
   when: ntp_service.changed
+
+- name: Restart ntp, just to be safe
+  service:
+    name: ntp
+    state: restarted

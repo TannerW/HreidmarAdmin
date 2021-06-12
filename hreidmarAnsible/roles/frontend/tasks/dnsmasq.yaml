@@ -1,0 +1,28 @@
+- name: hosts file
+  copy:
+    src: '{{ playbook_dir }}/files/etc-hosts'
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: u+rw,g+r,o+r
+  register: hostsupload
+
+- name: dnsmasq config file
+  copy:
+    src: '{{ playbook_dir }}/files/etc-dnsmasq.conf'
+    dest: /etc/dnsmasq.conf
+    owner: root
+    group: root
+    mode: u+rw,g+r,o+r
+  register: dnsmasqupload
+
+- name: Start service dnsmasq, if not started
+  ansible.builtin.service:
+    name: dnsmasq
+    state: started
+
+- name: Restart service dnsmasq
+  service:
+    name: dnsmasq
+    state: restarted
+  when: dnsmasqupload.changed or hostsupload.changed

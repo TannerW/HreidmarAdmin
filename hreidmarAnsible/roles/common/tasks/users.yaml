@@ -35,4 +35,20 @@
     shell: /bin/bash
     group: tanner
     groups: sudo,hreidmar
+
+- name: add group slurm
+  group:
+    name: slurm
+    state: present
+    gid: 1002
+
+- name: add user slurm
+  user:
+    name: slurm
+    append: no
+    uid: 1002
+    home: /home/slurm
+    shell: /bin/bash
+    group: slurm
+    groups: sudo,hreidmar
     

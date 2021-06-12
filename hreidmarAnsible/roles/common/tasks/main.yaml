@@ -3,12 +3,27 @@
   tags: 
     - userids
 
-- name: apt-install
-  import_tasks: apt-common-21.04.yaml
-  when:
-    - ansible_distribution_version == '21.04'
-  tags: 
-    - apt
+- name: upload hosts file
+  copy:
+    src: '{{ playbook_dir }}/files/etc-hosts'
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: u+rw,g+r,o+r
+
+- name: apt-sources
+  copy:
+    src: '{{ playbook_dir }}/files/etc-apt-sources.list'
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: u+rw,g+rw,o+r
+  register: apt_sources
+
+- name: apt-get update if sources changed
+  apt:
+    update_cache: yes
+  when: apt_sources.changed
 
 - name: npt-setup
   import_tasks: ntp.yaml

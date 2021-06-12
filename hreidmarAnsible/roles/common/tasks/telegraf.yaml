@@ -8,11 +8,6 @@
     force_apt_get: true
   register: telegrafinstall
 
-- name: Start service telegraf, if not started
-  ansible.builtin.service:
-    name: telegraf
-    state: started
-
 - name: telegraf config file
   copy:
     src: '{{ playbook_dir }}/files/etc-telegraf-telegraf.conf'
@@ -21,6 +16,13 @@
     group: root
     mode: u+rw,g+r,o+r
   register: telegrafupload
+  when:
+    - ansible_distribution_version == '21.04'
+
+- name: Start service telegraf, if not started
+  ansible.builtin.service:
+    name: telegraf
+    state: started
 
 - name: Restart service telegraf
   service:

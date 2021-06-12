@@ -1,5 +1,21 @@
+- hosts: 127.0.0.1
+  connection: local
+  tasks:
+    - name: "Kill previous sessions on local port"
+      shell: ps axuf | grep 2222 | grep ssh | awk '{print "kill -9 " $1}'
+    
+    - name: Create SSH tunnel
+      shell: ssh -i /home/tanner/.ssh/id_hreidmar -fN -L 2222:localhost:22 ubuntu@hreidmarfrontend01
+
 - hosts: hreidmar
   become: yes
   roles:
+  - role: frontend
   - role: common
   - role: compute
+
+- hosts: 127.0.0.1
+  connection: local
+  tasks:
+    - name: "Kill sessions on local port"
+      shell: ps axuf | grep 2222 | grep ssh | awk '{print "kill -9 " $1}'
