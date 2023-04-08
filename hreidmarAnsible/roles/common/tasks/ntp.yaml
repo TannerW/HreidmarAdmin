@@ -5,7 +5,7 @@
     port: '123'
     proto: udp
   when:
-    - ansible_distribution_version == '21.04'
+    - ansible_distribution_version == '22.04'
     - inventory_hostname is match("hreidmarfrontend.*")
 
 - name: ntp client config file
@@ -16,7 +16,7 @@
     group: root
     mode: u+rw,g+rw,o+r
   when:
-    - ansible_distribution_version == '21.04'
+    - ansible_distribution_version == '22.04'
     - inventory_hostname is match("hreidmarcompute.*")
 
 - name: ntp service
@@ -29,7 +29,7 @@
       RestartSec=900s
   register: ntp_service
   when:
-    - ansible_distribution_version == '21.04'
+    - ansible_distribution_version == '22.04'
 
 - name: ntp_enabled
   systemd:
@@ -43,7 +43,7 @@
     state: stopped
     enabled: no
   when:
-    - ansible_distribution_version == '21.04'
+    - ansible_distribution_version == '22.04'
     - inventory_hostname is match("hreidmarcompute.*")
 
 - name: reload the daemons

@@ -28,7 +28,7 @@
 - name: npt-setup
   import_tasks: ntp.yaml
   when:
-    - ansible_distribution_version == '21.04'
+    - ansible_distribution_version == '22.04'
   tags: 
     - npt
 

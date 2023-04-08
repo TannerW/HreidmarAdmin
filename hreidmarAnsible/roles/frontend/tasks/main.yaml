@@ -1,7 +1,7 @@
 - name: dnsmasq
   import_tasks: dnsmasq.yaml
   when:
-    - ansible_distribution_version == '21.04'
+    - ansible_distribution_version == '22.04'
     - inventory_hostname is match("hreidmarfrontend.*")
   tags: 
     - dnsmasq
@@ -9,7 +9,7 @@
 - name: iptables
   import_tasks: iptables.yaml
   when:
-    - ansible_distribution_version == '21.04'
+    - ansible_distribution_version == '22.04'
     - inventory_hostname is match("hreidmarfrontend.*")
   tags: 
     - iptables

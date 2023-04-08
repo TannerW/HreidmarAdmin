@@ -18,6 +18,8 @@
       - libgtk-3-dev
       - dnsmasq
       - net-tools
+      - linux-modules-extra-raspi
+      - docker.io
     state: present
     update_cache: false
     install_recommends: false
