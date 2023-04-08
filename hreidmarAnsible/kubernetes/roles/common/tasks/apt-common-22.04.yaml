@@ -1,0 +1,79 @@
+- name: install ZSH and powerline
+  apt:
+    name:
+      - zsh
+      - fonts-powerline
+    state: present
+    update_cache: false
+    install_recommends: false
+    force_apt_get: true
+
+- name: install common filesystem packages
+  apt:
+    name:
+      - cifs-utils
+      - nfs-common
+    state: present
+    update_cache: false
+    install_recommends: false
+    force_apt_get: true
+
+- name: install clustering essentials
+  apt:
+    name:
+      - ntp
+      - ntpdate
+      # - netloc
+      - dnsmasq
+      - net-tools
+    state: present
+    update_cache: false
+    install_recommends: false
+    force_apt_get: true
+
+- name: install common development packages
+  apt:
+    name:
+      - vim
+      - git
+      - build-essential
+      - cmake      
+      # - libcurl-devel
+      - libgtk-3-dev
+      - man2html
+    state: present
+    update_cache: false
+    install_recommends: false
+    force_apt_get: true
+
+- name: install k3s requirements like docker and linux-modules-extra-raspi
+  apt:
+    name:
+      - linux-modules-extra-raspi
+      - docker.io
+    state: present
+    update_cache: false
+    install_recommends: false
+    force_apt_get: true
+
+- name: install misc packages
+  apt:
+    name:
+      - smartmontools
+      - jq
+    state: present
+    update_cache: false
+    install_recommends: false
+    force_apt_get: true
+
+- name: Remove useless packages from the cache
+  ansible.builtin.apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  ansible.builtin.apt:
+    autoremove: yes
+
+- name: Run the equivalent of "apt-get clean" as a separate step
+  apt:
+    clean: yes

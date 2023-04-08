@@ -1,0 +1,12 @@
+hreidmar_pi_cluster:
+  hosts:
+    hreidmarfrontend01:
+      ansible_host: hreidmarfrontend01
+      ansible_user: ubuntu
+      ansible_connection: ssh
+      ansible_ssh_private_key_file: ~/.ssh/id_hreidmar
+    hreidmardata01:
+      ansible_host: hreidmardata01
+      ansible_user: ubuntu
+      ansible_connection: ssh
+      ansible_ssh_private_key_file: ~/.ssh/id_hreidmar

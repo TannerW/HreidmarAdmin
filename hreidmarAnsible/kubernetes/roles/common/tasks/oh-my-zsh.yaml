@@ -1,0 +1,46 @@
+- name: Check if oh-my-zsh is already installed
+  stat:
+    path: ~/.oh-my-zsh
+  register: oh-my-zsh.exists
+
+- name: Download oh-my-zsh installer
+  get_url: 
+    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh dest=/tmp/zsh-installer.sh
+  when: not oh-my-zsh.exists
+    
+- name: Execute the zsh-installer.sh
+  shell: /tmp/zsh-installer.sh
+  when: not oh-my-zsh.exists
+
+- name: Remove the zsh-installer.sh
+  file: 
+    path: /tmp/zsh-installer.sh 
+    state: absent
+  when: not oh-my-zsh.exists
+
+- name: Check if zsh-autosuggestions is installed
+  stat:
+    path: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+  register: oh-my-zsh-autosuggestions.exists
+
+- name: Clone zsh-autosuggestions
+  git:
+    repo: 'https://github.com/zsh-users/zsh-autosuggestions'
+    dest: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+  when: not oh-my-zsh-autosuggestions.exists
+
+- name: Check if zsh-syntax-highlighting is installed
+  stat:
+    path: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+  register: oh-my-zsh-syntax-highlighting.exists
+
+- name: Clone and install zsh-syntax-highlighting
+  git:
+    repo: 'https://github.com/zsh-users/zsh-syntax-highlighting'
+    dest: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+  when: not oh-my-zsh-syntax-highlighting.exists
+
+- name: copy over .zshrc file
+  copy:
+    src: 'zshrc'
+    dest: ~/.zshrc

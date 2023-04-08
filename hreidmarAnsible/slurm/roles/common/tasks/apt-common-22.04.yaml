@@ -20,6 +20,7 @@
       - net-tools
       - linux-modules-extra-raspi
       - docker.io
+      - jq
     state: present
     update_cache: false
     install_recommends: false

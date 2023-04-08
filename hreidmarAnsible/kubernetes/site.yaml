@@ -1,0 +1,13 @@
+- name: Ping Check
+  hosts: hreidmar_pi_cluster
+  tasks:
+   - name: Ping my hosts
+     ansible.builtin.ping:
+   - name: Print message
+     ansible.builtin.debug:
+       msg: Hello world
+
+- hosts: hreidmar_pi_cluster
+  become: yes
+  roles:
+  - role: common

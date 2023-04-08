@@ -1,0 +1,6 @@
+- name: apt-install
+  import_tasks: apt-common-22.04.yaml
+  when:
+    - ansible_distribution_version == '22.04' or ansible_distribution_version == '22.10'
+  tags: 
+    - apt
